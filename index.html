@@ -83,7 +83,7 @@
 			pg132: 你可以修改我的MOD, 但是你需要保留我的名字
 			<br>
 			游戏时间： {{ formatTime(player.timePlayed) }}<br><br>
-			<h3>热键</h3><br>
+			<h3>快捷键</h3><br>
 			<span v-for="key in hotkeys" v-if="player[key.layer].unlocked"><br>{{key.description}}</span>
 		</div>
 		<div v-if="player.tab=='options'" class="col right">
