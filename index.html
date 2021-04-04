@@ -64,7 +64,7 @@
 				<br>
 				原作者： {{modInfo.author}}	
 			</span>
-			<br>
+			<br><br>
 			The Modding Tree {{TMT_VERSION.tmtNum}} 作者：Acamaeda
 			<br>
 			The Prestige Tree 作者：Jacorb and Aarex
@@ -81,7 +81,7 @@
 			Jacorb: 如果有人改了我的游戏，那很好，然后起一个不同的名字，并在 Discord 服务器上<a href="https://discord.gg/wwQfgPa" target="_blank">给我发私信</a>
 			<br><br>
 			pg132: 你可以修改我的MOD, 但是你需要保留我的名字
-			<br>
+			<br><br>
 			游戏时间： {{ formatTime(player.timePlayed) }}<br><br>
 			<h3>快捷键</h3><br>
 			<span v-for="key in hotkeys" v-if="player[key.layer].unlocked"><br>{{key.description}}</span>
