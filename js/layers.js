@@ -1625,7 +1625,7 @@ addLayer("e", {
                 },
                 14:{
                         title: "Vile", 
-                        description: "自动获得变形虫，禁用变形虫重置",
+                        description: "自动获得物质，禁用物质重置",
                         cost: new Decimal(1e12),
                         unlocked(){
                                 return hasUpgrade("e", 13) || hasUnlockedRow(3)
