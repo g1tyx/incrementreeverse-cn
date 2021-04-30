@@ -6828,7 +6828,7 @@ addLayer("f", {
                 },
                 24: {
                         title: "Tao",
-                        description: "购买第一行工人无需消耗片段，每秒获得重置所获得片段的 1%",
+                        description: "购买第二行工人无需消耗片段，每秒获得重置所获得片段的 1%",
                         cost: new Decimal(3e13),
                         unlocked(){
                                 return hasUpgrade("f", 23) || player.c.best.gt(0)
@@ -8120,7 +8120,7 @@ addLayer("c", {
                         }, // hasMilestone("c", 6)
                 },
                 7: {
-                        requirementDescription: "<b>von Neumann</b><br>要求：3 胶囊", 
+                        requirementDescription: "<b>von Neumann</b><br>要求：13 胶囊", 
                         effectDescription: "保留所有工人，开始时所有分子都有一个",
                         done(){
                                 return player.c.best.gte(13)
