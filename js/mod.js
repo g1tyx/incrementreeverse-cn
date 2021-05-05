@@ -1,6 +1,6 @@
 let modInfo = {
 	name: "增量树宇宙",
-	id: "incrementy",
+	id: "Incrementreeverse-CN",
 	author: "pg132",
 	pointsName: "点数",
 	discordName: "pg132#7975",
@@ -75,16 +75,16 @@ var displayThings = [
 			return "你正在进行玻色子挑战 Banned"
 		}
 		if (inChallenge("sp", 11)) {
-			return "You are in Super Prestige challenge Quartz"
+			return "你正在进行超级重置挑战 Quartz"
 		}
 		if (inChallenge("sp", 12)) {
-			return "You are in Super Prestige challenge Quarts"
+			return "你正在进行超级重置挑战 Quarts"
 		}
 		if (inChallenge("sp", 21)) {
-			return "You are in Super Prestige challenge Jewel"
+			return "你正在进行超级重置挑战 Jewel"
 		}
 		if (inChallenge("sp", 22)) {
-			return "You are in Super Prestige challenge Joule"
+			return "你正在进行超级重置挑战 Joule"
 		}
 		if (player.c.best.gt(0))  return "已解锁所有层级！"
 		if (player.f.best.gt(0))  return "你还需要解锁 1 个层级"
@@ -132,4 +132,3 @@ window.addEventListener('keyup', function(event) {
 	if (event.keyCode == 16) shiftDown = false;
 	if (event.keyCode == 17) controlDown = false;
 }, false);
-
