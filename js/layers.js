@@ -8120,7 +8120,7 @@ addLayer("c", {
                         }, // hasMilestone("c", 6)
                 },
                 7: {
-                        requirementDescription: "<b>von Neumann</b><br>要求：3 胶囊", 
+                        requirementDescription: "<b>von Neumann</b><br>要求：13 胶囊", 
                         effectDescription: "保留所有工人，开始时所有分子都有一个",
                         done(){
                                 return player.c.best.gte(13)
