@@ -6761,7 +6761,7 @@ addLayer("f", {
                 cols: 5,
                 11: {
                         title: "Borcherds",
-                        description: "“基础起源获得量提升”提供免费的“中微子提升”Base Origin Boost gives free levels to Neutrino Boost",
+                        description: "“基础起源获得量提升”提供免费的“中微子提升”",
                         cost: new Decimal(10),
                         unlocked(){
                                 return true
@@ -7796,7 +7796,7 @@ addLayer("f", {
                                         let b = `你拥有 <h2 style='color: #41FFEC'>` + formatWhole(player.f.molecules.glucose, 4)   + "</h2> <h3 style='color: #703000'>" + names[ 1] + "</h3> 碎片获得量乘 " + format(layers.f.glucoseEffect()) + "<br>"
                                         let c = `你拥有 <h2 style='color: #41FFEC'>` + formatWhole(player.f.molecules.ammonia, 4)   + "</h2> <h3 style='color: #703070'>" + names[ 2] + "</h3> “增量耐性”的软上限延后 " + formatWhole(layers.f.ammoniaEffect()) + "<br>"
                                         let d = `你拥有 <h2 style='color: #41FFEC'>` + formatWhole(player.f.molecules.atp, 4)       + "</h2> <h3 style='color: #6F0066'>" + names[ 3] + "</h3> 工人的产量提高 " + format(layers.f.atpEffect()) + "<br>"
-                                        let e = `You have <h2 style='color: #41FFEC'>` + formatWhole(player.f.molecules.methane, 4)   + "</h2> <h3 style='color: #6F0000'>" + names[ 4] + "</h3> 起源获得量变为原来的 " + format(layers.f.methaneEffect()) + " 倍<br>"
+                                        let e = `你拥有 <h2 style='color: #41FFEC'>` + formatWhole(player.f.molecules.methane, 4)   + "</h2> <h3 style='color: #6F0000'>" + names[ 4] + "</h3> 起源获得量变为原来的 " + format(layers.f.methaneEffect()) + " 倍<br>"
 
                                         let f = `你拥有 <h2 style='color: #41FFEC'>` + formatWhole(player.f.molecules.nadph, 4)     + "</h2> <h3 style='color: #746F1C'>" + names[ 5] + "</h3> “π介子提升”的底数 +" + format(layers.f.nadphEffect()) + "<br>"
                                         let g = `你拥有 <h2 style='color: #41FFEC'>` + formatWhole(player.f.molecules.co2, 4)       + "</h2> <h3 style='color: #336000'>" + names[ 6] + "</h3> 每拥有一个“基础起源获得量提升”，碎片获得量乘一次 " + format(layers.f.co2Effect(), 4) + " （总计 " + format(Decimal.pow(layers.f.co2Effect(), layers.o.buyables[33].total())) + " ）<br>"
