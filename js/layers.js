@@ -5547,7 +5547,7 @@ addLayer("pi", {
                 },
                 33: {
                         title: "Steak",
-                        description: "从这个升级开始，每购买一个π介子升级，“增量耐性”的上限降低 10",
+                        description: "从这个升级开始，每购买一个π介子升级，“增量耐性”的上限增加 10",
                         cost: new Decimal(1e153),
                         unlocked(){
                                 return hasUpgrade("pi", 32) || player.c.best.gt(0)
