@@ -1054,7 +1054,7 @@ addLayer("am", {
                 11: {
                         name: "Know?", 
                         challengeDescription: "增量获得量变为原来的 0.1 次方",
-                        rewardDescription: "“增量耐性”的软上限延后 3 生效 (40 -> 45)",
+                        rewardDescription: "“增量耐性”的软上限延后 5 生效 (40 -> 45)",
                         unlocked(){
                                 return hasAUpgrade(11) || hasUpgrade("s", 14) || hasUnlockedRow(3)
                         },
@@ -1471,8 +1471,8 @@ addLayer("m", {
                 cols: 2,
                 11: {
                         name: "Creak", 
-                        challengeDescription: "Amoebas base effects are 1 and square root 增量 gain",
-                        rewardDescription: "“增量耐性”的软上限延后 5 级 (45 -> 50)",
+                        challengeDescription: "变形虫和反物质效果的底数都为 1，增量获得量变为原来的平方根",
+                        rewardDescription: "“增量耐性”的软上限延后 5 (45 -> 50)",
                         unlocked(){
                                 return hasAUpgrade(12) || hasUnlockedRow(3)
                         },
@@ -1481,7 +1481,7 @@ addLayer("m", {
                 },
                 12: {
                         name: "Creek", 
-                        challengeDescription: "变形虫和反物质的基础效果都为1，增量获得量变为原来的立方根",
+                        challengeDescription: "变形虫和反物质效果的底数都为 1，增量获得量变为原来的立方根",
                         rewardDescription: "增量获得量乘以能量的数量",
                         unlocked(){
                                 return hasAUpgrade(12) || hasUnlockedRow(3)
