@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<head>
+	<meta content="utf-8" http-equiv="encoding">
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<link rel="stylesheet" type="text/css" href="style.css" />
+	<link href="https://fonts.loli.net/css2?family=Noto+Serif+SC:wght@300&display=swap" rel="stylesheet">
+	<script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/vue/2.6.12/vue.min.js"></script>
+	<script type="text/javascript" src="js/break_eternity.js"></script>
+	<script type="text/javascript" src="js/layerSupport.js"></script>
+	<script type="text/javascript" src="js/layers.js"></script>
+	<script type="text/javascript" src="js/mod.js"></script>
+	<script type="text/javascript" src="js/temp.js"></script>
+	<script type="text/javascript" src="js/game.js"></script>
+	<script type="text/javascript" src="js/utils.js"></script>
+	<script type="text/javascript" src="js/v.js"></script>
+	<script type="text/javascript" src="js/canvas.js"></script>
+
+</head>
+<body onload="load()">
+	<div id="app">
+		<div v-if="false" id="loadingSection" class="fullWidth">
+			<h1>加载中...（如果加载用时太长，那就是出现了严重错误）</h1>
+		</div>
+		<div class="vl" v-if="player.tab!='tree'&&player.tab!='gameEnded'"></div>
+		<div v-if="player.tab=='gameEnded'" class="fullWidth">
+			<br>
+			<h2>{{modInfo.name}} {{VERSION.withoutName}}</h2><br><br>
+			<h3>恭喜你！你完成了这个游戏！</h3><br>
+			<h3>这是游戏内容的终点，同时也是 break_eternity.js 的数值上限。</h3><br><br>
+			<div v-if="!player.timePlayedReset">游戏用时： {{formatTime(player.timePlayed)}}</div>
+			<div v-if="player.timePlayedReset">如果你在速通，请保留你的游戏录屏，否则这个结果不算数。</div>
+			<br>
+			<button class="longUpg can" onclick="hardReset(true)">再玩一次</button>
+			<br><br><br>
+			<span v-if="modInfo.discordLink"><a class="link" v-bind:href="modInfo.discordLink" target="_blank">{{modInfo.discordName}}</a><br></span>
+			<a class="link" href="https://discord.gg/F3xveHV" target="_blank" v-bind:style="modInfo.discordLink ? {'font-size': '16px'} : {}">Modding Tree 的 Discord 服务器</a><br>
+			<a class="link" href="http://discord.gg/wwQfgPa" target="_blank" v-bind:style="{'font-size': '16px'}">Prestige Tree 的 Discord 服务器</a><br>
+			如果你想玩一次速通，点击“再玩一次”
+			<br>
+			这是 pg132 的第一个完整的MOD, 或许还有别的MOD, 来试一下反物质维度 NG+++ 吧: 
+			<br>
+			<br>
+			<a class="link" href="http://discord.gg/h9mDese" target="_blank" v-bind:style="{'font-size': '16px'}">NG+++ Discord</a>
+			<br>
+			Discord: pg132#7579 别发太多私信，会崩的
+			<br>
+			<br>
+			<h1>嗯？你还在看这玩意？</h1>
+			<br>
+		</div>
+		<div v-if="player.tab=='changelog'" class="col right">
+			<button class="back" onclick="showTab('tree')">←</button><br><br><br>
+		</div>
+		
+		<div v-if="player.tab=='info'" class="col right">
+			<button class="back" onclick="showTab('tree')">←</button><br>
+			<h2>{{modInfo.name}}</h2>
+			<br>
+			<h3>{{VERSION.withName}}</h3>
+			<span v-if="modInfo.author">
+				<br>
+				原作者： {{modInfo.author}}	
+			</span>
+			<br><br>
+			The Modding Tree {{TMT_VERSION.tmtNum}} 作者：Acamaeda
+			<br>
+			The Prestige Tree 作者：Jacorb 和 Aarex
+			<br>
+			感谢 Discord 用户 papyrus 大胆的想法
+			<br>
+			中文版作者：GSUI5051
+			<br><br>
+			<a v-bind:href="modInfo.changelogLink" target="_blank" class="link" >更新日志</a><br>
+			<span v-if="modInfo.discordLink"><a class="link" v-bind:href="modInfo.discordLink" target="_blank">{{modInfo.discordName}}</a><br></span>
+			<a class="link" href="https://discord.gg/F3xveHV" target="_blank" v-bind:style="modInfo.discordLink ? {'font-size': '16px'} : {}">Modding Tree 的 Discord 服务器</a><br>
+			<a class="link" href="http://discord.gg/wwQfgPa" target="_blank" v-bind:style="{'font-size': '16px'}">Prestige Tree 的 Discord 服务器</a><br>
+			<br>
+			Jacorb: 如果有人改了我的游戏，那很好，然后起一个不同的名字，并在 Discord 服务器上<a href="https://discord.gg/wwQfgPa" target="_blank">给我发私信</a>
+			<br><br>
+			pg132: 你可以修改我的 MOD, 但你需要保留我的名字
+			<br><br>
+			游戏用时： {{ formatTime(player.timePlayed) }}<br><br>
+			<h3>快捷键</h3><br>
+			<span v-for="key in hotkeys" v-if="player[key.layer].unlocked"><br>{{key.description}}</span>
+		</div>
+		<div v-if="player.tab=='options'" class="col right">
+			<button class="back" onclick="showTab('tree')">←</button><br>
+			<table>
+				<tr>
+					<td><button class="opt" onclick="save()">存档</button></td>
+					<td><button class="opt" onclick="toggleOpt('autosave')">自动存档：{{ player.autosave?"开":"关" }}</button></td>
+					<td><button class="opt" onclick="hardReset()">重置存档</button></td>
+				</tr>
+				<tr>
+					<td><button class="opt" onclick="exportSave()">将存档导出到剪贴板</button></td>
+					<td><button class="opt" onclick="importSave()">导入</button></td>
+					<td><button class="opt" onclick="toggleOpt('offlineProd')">离线进度：{{ player.offlineProd?"开":"关" }}</button></td>
+				</tr>
+				<tr>
+					<td><button class="opt" onclick="switchTheme()">主题：{{ getThemeName() }}</button></td>
+					<td><button class="opt" onclick="adjustMSDisp()">显示里程碑：{{ player.msDisplay.toUpperCase() }}</button></td>
+					<td><button class="opt" onclick="toggleOpt('hqTree')">高质量显示树：{{ player.hqTree?"开":"关" }}</button></td>
+				</tr>
+					<tr>
+						<td><button class="opt" onclick="toggleOpt('hideChallenges')">已完成的挑战：{{ player.hideChallenges?"隐藏":"显示" }}</button></td>
+					<!--	<td><button class="opt" onclick="toggleOpt('oldStyle')">Style: {{ player.oldStyle?"v1.0":"NEW" }}</button></td>-->
+				</tr> 
+			</table>
+		</div>
+		<div id="treeOverlay" class="treeOverlay" v-if="player.tab!='gameEnded'" onscroll="resizeCanvas()" v-bind:class="{ fullWidth: player.tab == 'tree', col: player.tab != 'tree', left: player.tab != 'tree'}">
+			<div id="version" class="overlayThing" style="margin-right: 13px">{{VERSION.withoutName}}</div>
+			<img id="optionWheel"  class="overlayThing" v-if="player.tab!='options'" src="options_wheel.png" onclick="showTab('options')"></img>
+			<div id="info" v-if="player.tab!='info'"  class="overlayThing" onclick="showTab('info')"><br>i</div>
+			<div id="discord" class="overlayThing">
+				<img onclick="window.open((modInfo.discordLink ? modInfo.discordLink : 'https://discord.gg/F3xveHV'),'mywindow')" src="discord.png"  target="_blank"></img>
+				<ul id="discord-links">
+					<li v-if="modInfo.discordLink"><a class="link" v-bind:href="modInfo.discordLink" target="_blank">{{modInfo.discordName}}</a><br></li>
+					<li><a class="link" href="https://discord.gg/F3xveHV" target="_blank" v-bind:style="modInfo.discordLink ? {'font-size': '16px'} : {}">Modding Tree 的 Discord 服务器</a><br></li>
+					<li><a class="link" href="http://discord.gg/wwQfgPa" target="_blank" v-bind:style="{'font-size': '16px'}">Prestige Tree 的 Discord 服务器</a></li>
+				</ul>
+			</div>
+			<div class="overlayThing" style="padding-bottom:7px; width: 90%">
+				<span v-if="player.devSpeed && player.devSpeed != 1" class="overlayThing">
+					<br>开发速度：{{format(player.devSpeed)}}x<br>
+				</span>
+				<span v-if="player.offTime !== undefined"  class="overlayThing">
+					<br>离线时间：{{formatTime(player.offTime.remain)}}<br>
+				</span>
+				<span v-if="false && !player.keepGoing"  class="overlayThing">
+					<br>游戏终点：{{formatWhole(ENDGAME)}}<br>
+				</span>
+				<br>
+				<span v-if="player.points.lt('1e1000')"  class="overlayThing">你拥有 </span>
+				<h2  class="overlayThing" id="points">{{format(player.points)}}</h2>
+				<span v-if="player.points.lt('1e1e6')"  class="overlayThing"> {{modInfo.pointsName}}</span>
+				<br>
+				<span v-if="canGenPoints()"  class="overlayThing">({{format(getPointGen())}}/秒)</span>
+				<div v-for="thing in tmp.displayThings" class="overlayThing"><span v-if="thing" v-html="thing"></span></div>
+			</div>
+			<div class="sideLayers" >
+				<div v-for="node in OTHER_LAYERS['side']"><layer-node :layer='node.layer' :abb='tmp[node.layer].symbol' :size="'small'"></layer-node></div>
+			</div>
+		</div>
+
+
+		<div id="treeTab" style="z-index: 0" v-if="player.tab!='gameEnded'" onscroll="resizeCanvas()" v-bind:class="{ fullWidth: player.tab == 'tree', col: player.tab != 'tree', left: player.tab != 'tree'}">
+			<br><br><br><br>
+			<div id="fakeHead" style="visibility: hidden;">
+				<span v-if="player.devSpeed && player.devSpeed != 1" class="overlayThing">
+					<br>开发速度：{{format(player.devSpeed)}}x<br>
+				</span>
+				<span v-if="player.offTime !== undefined"  class="overlayThing">
+					<br>离线时间：{{formatTime(player.offTime.remain)}}<br>
+				</span>
+				<span v-if="false && !player.keepGoing"  class="overlayThing">
+					<br>游戏终点：{{formatWhole(ENDGAME)}}<br>
+				</span>
+				<br>
+				<span v-if="player.points.lt('1e1000')"  class="overlayThing">你拥有 </span>
+				<h2  class="overlayThing" id="points">{{format(player.points)}}</h2>
+				<span v-if="player.points.lt('1e1e6')"  class="overlayThing"> {{modInfo.pointsName}}</span>
+				<br>
+				<span v-if="canGenPoints()"  class="overlayThing">({{format(getPointGen())}}/秒)</span>
+				<div v-for="thing in tmp.displayThings" class="overlayThing"><span v-if="thing" v-html="thing"></span></div>
+			</div>
+			<span v-for="(n, row) in (maxRow + 1)"><table>
+				<td v-if="player.tab=='tree'&& someLayerUnlocked(row) && row != 0" class="left"><br><br><img class="remove" src="remove.png" onclick="resetRow(row)"></img></td>
+				<td v-for="node in TREE_LAYERS[row]"><layer-node :layer='node.layer' :abb='tmp[node.layer].symbol'></layer-node></td>
+				<table><button class="treeNode hidden"></button></td></table>
+			</span>
+			<canvas id="treeCanvas" class="canvas"></canvas>
+		</div>
+		<div v-for="layer in LAYERS" >
+			<div v-if="player.tab==layer" v-bind:class="'col right fast tab'"  v-bind:style="[tmp[layer].style ? tmp[layer].style : {}, (tmp[layer].tabFormat && !Array.isArray(tmp[layer].tabFormat)) ? tmp[layer].tabFormat[player.subtabs[layer].mainTabs].style : {}]">
+				<button class="back" onclick="showTab('tree')">←</button><br><br><br>
+				<div v-if="!tmp[layer].tabFormat">
+					<info-box v-if="tmp[layer].infoboxes" :layer="layer" :data="Object.keys(tmp[layer].infoboxes)[0]"></info-box>
+					<main-display v-bind:style="tmp[layer].componentStyles['main-display']" :layer="layer"></main-display>
+					<div v-if="tmp[layer].type !== 'none'">
+						<prestige-button v-bind:style="tmp[layer].componentStyles['prestige-button']" :layer="layer"></prestige-button>
+					</div>
+					<resource-display v-bind:style="tmp[layer].componentStyles['resource-display']" :layer="layer"></resource-display>
+					<milestones v-bind:style="tmp[layer].componentStyles.milestones" :layer="layer"></milestones>
+					<div v-if="Array.isArray(tmp[layer].midsection)">
+						<column :layer="layer" :data="tmp[layer].midsection"></column>
+					</div>
+					<clickables v-bind:style="tmp[layer].componentStyles['clickables']" :layer="layer"></clickables>
+					<buyables v-bind:style="tmp[layer].componentStyles.buyables" :layer="layer"></buyables>
+					<upgrades v-bind:style="tmp[layer].componentStyles['upgrades']" :layer="layer"></upgrades>
+					<challenges v-bind:style="tmp[layer].componentStyles['challenges']" :layer="layer"></challenges>
+					<br><br>
+				</div>
+				<div v-if="tmp[layer].tabFormat">
+					<div v-if="Array.isArray(tmp[layer].tabFormat)">
+						<column :layer="layer" :data="tmp[layer].tabFormat"></column>
+					</div>
+					<div v-else v-bind:style="[{'margin-top': '-50px'}]">
+						<div class="upgTable" v-bind:style="{'padding-top': '25px', 'margin-bottom': '24px'}">
+							<tab-buttons v-bind:style="tmp[layer].componentStyles['tab-buttons']" :layer="layer" :data="tmp[layer].tabFormat" :name="'mainTabs'"></tab-buttons>
+						</div>
+						<column :layer="layer" :data="tmp[layer].tabFormat[player.subtabs[layer].mainTabs].content"></column>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<!--客服 开始-->
+<script src="//g8hh.com/static/js/jquery.min.js"></script>
+<link rel="stylesheet" href="//g8hh.com/static/css/kf.css" type="text/css" media="screen" charset="utf-8">
+<script src="//g8hh.com/static/js/kf.js"></script>
+<!-- 客服 结束 -->
+<!--站长统计--> 
+<div style="display: none">
+    <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?028b1b5f659ed138230f4cafd7ad0dfc";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+    </div>
+</body>
